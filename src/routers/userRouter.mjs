@@ -9,8 +9,19 @@ userRouter.use(responseMiddleware)
 // GET All Users
 userRouter.get("/", async (req, res) => {
     try {
-        const users = await User.find().select({__v: 0})
+        const users = await User.find().select({ __v: 0 })
         res.success("Get All Users Success", users)
+    } catch (err) {
+        res.fail("Create New User Failed", err.message)
+    }
+})
+
+userRouter.get("/:id", async (req, res) => {
+    const { params: { id } } = req
+
+    try {
+        const user = await User.findOne({ _id: id }).select({ __v: 0 })
+        res.success("Get All Users Success", user)
     } catch (err) {
         res.fail("Create New User Failed", err.message)
     }

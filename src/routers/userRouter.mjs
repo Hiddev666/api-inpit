@@ -16,7 +16,12 @@ userRouter.get("/", async (req, res) => {
         const startIndex = (page - 1) * limit
         const total = await User.countDocuments()
 
-        const users = await User.find().select({ __v: 0 }).skip(startIndex).limit(limit).sort({ createdAt: -1 })
+        const users = await User.find()
+            .select({ __v: 0 })
+            .skip(startIndex)
+            .limit(limit)
+            .sort({ createdAt: -1 })
+
         const details = {
             page: page,
             limit: limit,

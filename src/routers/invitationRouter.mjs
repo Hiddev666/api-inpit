@@ -47,8 +47,8 @@ invitationRouter.get(
   async (req, res) => {
     try {
       const { id } = req;
-      const user = await Invitation.findOne({ _id: id }).select({ __v: 0 });
-      res.success(200, "Get User by Id Success", user);
+      const invitation = await Invitation.findOne({ _id: id }).select({ __v: 0 });
+      res.success(200, "Get User by Id Success", invitation);
     } catch (err) {
       res.fail("Get User by Id Failed", err);
     }
@@ -85,7 +85,7 @@ invitationRouter.patch(
         body.slug = slug;
       }
 
-      const user = await Invitation.findByIdAndUpdate(id, body);
+      const invitation = await Invitation.findByIdAndUpdate(id, body);
       res.success(201, "Update an Invitation Success", body);
     } catch (err) {
       console.log(err.message);
@@ -95,14 +95,18 @@ invitationRouter.patch(
 );
 
 // Delete an Invitation
-invitationRouter.delete("/:id", [findById, adminJwtMiddleware], async (req, res) => {
+invitationRouter.delete(
+  "/:id",
+  [findById, adminJwtMiddleware],
+  async (req, res) => {
     try {
-        const { id } = req
-        const user = await Invitation.findByIdAndDelete(id)
-        res.success(201, "Delete an Invitation Success", user)
+      const { id } = req;
+      const invitation = await Invitation.findByIdAndDelete(id);
+      res.success(201, "Delete an Invitation Success", invitation);
     } catch (err) {
-        res.fail("Update an Invitation Failed", err)
+      res.fail("Update an Invitation Failed", err);
     }
-})
+  }
+);
 
 export default invitationRouter;

@@ -35,4 +35,18 @@ guestRouter.post("/", async (req, res) => {
   }
 });
 
+guestRouter.delete(
+    "/:id",
+    [findById],
+    async (req, res) => {
+        try {
+            const { id } = req;
+            const guest = await Guest.findByIdAndDelete(id);
+            res.success(201, "Delete a Guest Success", guest);
+        } catch (err) {
+            res.fail("Update a Guest Failed", err);
+        }
+    }
+);
+
 export default guestRouter;

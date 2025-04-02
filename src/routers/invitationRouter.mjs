@@ -41,16 +41,31 @@ invitationRouter.get("/", adminJwtMiddleware, async (req, res) => {
 });
 
 // Get Invitation by Id
+// invitationRouter.get(
+//     "/:id",
+//     [findById, adminJwtMiddleware],
+//     async (req, res) => {
+//         try {
+//             const { id } = req;
+//             const invitation = await Invitation.findOne({ _id: id }).select({ __v: 0 });
+//             res.success(200, "Get User by Id Success", invitation);
+//         } catch (err) {
+//             res.fail("Get User by Id Failed", err);
+//         }
+//     }
+// );
+
+// Get Invitation by User Id
 invitationRouter.get(
     "/:id",
-    [findById, adminJwtMiddleware],
+    [findById],
     async (req, res) => {
         try {
             const { id } = req;
-            const invitation = await Invitation.findOne({ _id: id }).select({ __v: 0 });
-            res.success(200, "Get User by Id Success", invitation);
+            const invitation = await Invitation.findOne({ userId: id }).select({ __v: 0 });
+            res.success(200, "Get User by User Id Success", invitation);
         } catch (err) {
-            res.fail("Get User by Id Failed", err);
+            res.fail("Get User by User Id Failed", err);
         }
     }
 );
